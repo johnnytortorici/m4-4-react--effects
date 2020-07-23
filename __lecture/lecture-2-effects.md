@@ -263,27 +263,19 @@ Unsubscribes are processed **right before** the next update, and **right before*
 
 ---
 
-import updateASrc from './assets/update-A.svg';
-
-<img src={updateASrc} style={{ width: '100%' }} />
+<img src='./assets/update-A.svg' />
 
 ---
 
-import updateBSrc from './assets/update-B.svg';
-
-<img src={updateBSrc} style={{ width: '100%' }} />
+<img src='./assets/update-B.svg' />
 
 ---
 
-import updateCSrc from './assets/update-C.svg';
-
-<img src={updateCSrc} style={{ width: '100%' }} />
+<img src='./assets/update-C.svg' />
 
 ---
 
-import updateDSrc from './assets/update-D.svg';
-
-<img src={updateDSrc} style={{ width: '100%' }} />
+<img src='./assets/update-D.svg' />
 
 ---
 
