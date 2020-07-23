@@ -21,8 +21,13 @@ const Game = () => {
     setNumCookies(numCookies => numCookies + 1);
   };
 
-  const handleItemClick = (item) => {
-    console.log(item.name);
+  const handleItemClick = ({ id, name, cost, value }) => {
+    if (numCookies >= cost) {
+      setNumCookies(numCookies => numCookies - cost);
+      setPurchasedItems({ ...purchasedItems, [id]: purchasedItems[id] + 1 })
+    } else {
+      window.alert(`You can't afford ${name} yet!`)
+    }
   };
 
   return (
@@ -47,7 +52,7 @@ const Game = () => {
             cost={item.cost} 
             value={item.value} 
             numOwned={purchasedItems[item.id]} 
-            onClick={handleItemClick(item)}
+            handleItemClick={() => handleItemClick(item)}
           /> ) 
         }
       </ItemArea>
