@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import useInterval from '../hooks/use-interval.hook';
 
 import Item from './Item';
 import cookieSrc from "../cookie.svg";
@@ -16,6 +17,20 @@ const Game = () => {
   const [numCookies, setNumCookies] = useState(0);
   const [purchasedItems, setPurchasedItems] = 
     useState({ cursor: 0, grandma: 0, farm: 0 });
+  
+  const calculateCookiesPerTick = (purchasedItems) => {
+    let totalCookiesPerTick = 0;
+    items.forEach((item) => totalCookiesPerTick += (purchasedItems[item.id] * item.value));
+    return (
+      totalCookiesPerTick
+    )
+  };
+
+  useInterval(() => {
+    const numOfGeneratedCookies = calculateCookiesPerTick(purchasedItems);
+    // Add this number of cookies to the total
+    setNumCookies(numCookies => numCookies + numOfGeneratedCookies);
+  }, 1000)
 
   const handleCookieClick = () => {
     setNumCookies(numCookies => numCookies + 1);
@@ -36,7 +51,7 @@ const Game = () => {
         <Indicator>
           <Total>{numCookies} cookies</Total>
           {/* TODO: Calcuate the cookies per second and show it here: */}
-          <strong>0</strong> cookies per second
+          <strong>{calculateCookiesPerTick(purchasedItems)}</strong> cookies per second
         </Indicator>
         <Button onClick={handleCookieClick}>
           <Cookie src={cookieSrc} />
