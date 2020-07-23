@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ItemWrapper = styled.div`
+    cursor: pointer;
     display: flex;
     width: 400px;
     padding: 10px 0;
