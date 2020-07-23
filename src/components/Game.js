@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import useInterval from '../hooks/use-interval.hook';
@@ -13,11 +13,14 @@ const items = [
 ];
 
 const Game = () => {
-  // TODO: Replace this with React state!
+  // DONE: Replace this with React state!
   const [numCookies, setNumCookies] = useState(0);
   const [purchasedItems, setPurchasedItems] = 
     useState({ cursor: 0, grandma: 0, farm: 0 });
   
+  // update document title everytime numCookies changes
+  useEffect(() => { document.title = `${numCookies} cookies - Cookie Clicker` }, [numCookies]);
+
   const calculateCookiesPerTick = (purchasedItems) => {
     let totalCookiesPerTick = 0;
     items.forEach((item) => totalCookiesPerTick += (purchasedItems[item.id] * item.value));
@@ -50,7 +53,7 @@ const Game = () => {
       <GameArea>
         <Indicator>
           <Total>{numCookies} cookies</Total>
-          {/* TODO: Calcuate the cookies per second and show it here: */}
+          {/* DONE: Calcuate the cookies per second and show it here: */}
           <strong>{calculateCookiesPerTick(purchasedItems)}</strong> cookies per second
         </Indicator>
         <Button onClick={handleCookieClick}>
