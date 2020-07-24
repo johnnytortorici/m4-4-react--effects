@@ -14,12 +14,22 @@ const items = [
 
 const Game = () => {
   // DONE: Replace this with React state!
-  const [numCookies, setNumCookies] = useState(0);
+  const [numCookies, setNumCookies] = useState(1000);
   const [purchasedItems, setPurchasedItems] = 
     useState({ cursor: 0, grandma: 0, farm: 0 });
   
   // update document title everytime numCookies changes
-  useEffect(() => { document.title = `${numCookies} cookies - Cookie Clicker` }, [numCookies]);
+  useEffect(() => { document.title = `${numCookies.toLocaleString('en-CA')} cookies - Cookie Clicker` }, [numCookies]);
+  useEffect(() => { 
+    window.addEventListener('keydown', handleKeydown);
+    return () => window.removeEventListener('keydown', handleKeydown);
+  });
+
+  useInterval(() => {
+    const numOfGeneratedCookies = calculateCookiesPerTick(purchasedItems);
+    // Add this number of cookies to the total
+    setNumCookies(numCookies => numCookies + numOfGeneratedCookies);
+  }, 1000)
 
   const calculateCookiesPerTick = (purchasedItems) => {
     let totalCookiesPerTick = 0;
@@ -28,12 +38,6 @@ const Game = () => {
       totalCookiesPerTick
     )
   };
-
-  useInterval(() => {
-    const numOfGeneratedCookies = calculateCookiesPerTick(purchasedItems);
-    // Add this number of cookies to the total
-    setNumCookies(numCookies => numCookies + numOfGeneratedCookies);
-  }, 1000)
 
   const handleCookieClick = () => {
     setNumCookies(numCookies => numCookies + 1);
@@ -48,13 +52,18 @@ const Game = () => {
     }
   };
 
+  const handleKeydown = (ev) => {
+    ev.preventDefault();
+    ev.code === 'Space' && handleCookieClick();
+  };
+
   return (
     <Wrapper>
       <GameArea>
         <Indicator>
-          <Total>{numCookies} cookies</Total>
+          <Total>{(numCookies).toLocaleString('en-CA')} cookies</Total>
           {/* DONE: Calcuate the cookies per second and show it here: */}
-          <strong>{calculateCookiesPerTick(purchasedItems)}</strong> cookies per second
+          <strong>{(calculateCookiesPerTick(purchasedItems)).toLocaleString('en-CA')}</strong> cookies per second
         </Indicator>
         <Button onClick={handleCookieClick}>
           <Cookie src={cookieSrc} />
